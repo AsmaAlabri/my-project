@@ -10,24 +10,12 @@ export default function Home() {
             img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131"
         },
         {
-            name: "Hamster",
-            img: "https://images.unsplash.com/photo-1548767797-d8c844163c4c"
-        },
-        {
             name: "Dog",
             img: "https://images.unsplash.com/photo-1517849845537-4d257902454a"
         },
         {
             name: "Parrot",
             img: "https://images.unsplash.com/photo-1552728089-57bdde30beb3"
-        },
-        {
-            name: "Rabbit",
-            img: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308"
-        },
-        {
-            name: "Turtle",
-            img: "https://images.unsplash.com/photo-1595433562696-2c3f2c59a6e3"
         }
     ];
 
@@ -113,19 +101,6 @@ export default function Home() {
                 >
                     Where love finds a home 🏠
                 </h1>
-
-                <button
-                    style={{
-                        backgroundColor: "#000",
-                        color: "#fff",
-                        border: "none",
-                        padding: "10px 25px",
-                        borderRadius: "8px",
-                        fontSize: "16px"
-                    }}
-                >
-                    Apply Now
-                </button>
             </Container>
 
             {/* PET CATEGORIES */}
@@ -150,9 +125,9 @@ export default function Home() {
                 <div
                     style={{
                         display: "flex",
-                        justifyContent: "space-between",
+                        justifyContent: "center",
                         flexWrap: "wrap",
-                        gap: "20px"
+                        gap: "40px"
                     }}
                 >
                     {pets.map((pet, index) => (
@@ -161,8 +136,6 @@ export default function Home() {
                             onClick={() => goToList(pet.name)}
                             style={{
                                 textAlign: "center",
-                                flex: "1",
-                                minWidth: "120px",
                                 cursor: "pointer"
                             }}
                         >
@@ -170,18 +143,19 @@ export default function Home() {
                                 src={pet.img}
                                 alt={pet.name}
                                 style={{
-                                    width: "90px",
-                                    height: "90px",
+                                    width: "110px",
+                                    height: "110px",
                                     borderRadius: "50%",
                                     objectFit: "cover",
-                                    border: "3px solid #f4a261"
+                                    border: "4px solid #f4a261"
                                 }}
                             />
 
                             <p
                                 style={{
-                                    marginTop: "10px",
-                                    fontWeight: "bold"
+                                    marginTop: "12px",
+                                    fontWeight: "bold",
+                                    fontSize: "16px"
                                 }}
                             >
                                 {pet.name}
@@ -214,7 +188,7 @@ export default function Home() {
                         maxWidth: "650px",
                         margin: "0 auto 20px auto",
                         fontSize: "14px",
-                        lineHeight: "1.6"
+                        lineHeight: "1.8"
                     }}
                 >
                     PetMatch is a technology platform that connects homeless
@@ -223,20 +197,6 @@ export default function Home() {
                     your ideal companion and give pets the caring homes they
                     deserve.
                 </p>
-
-                <button
-                    onClick={() => navigate("/about")}
-                    style={{
-                        backgroundColor: "#000",
-                        color: "#fff",
-                        border: "none",
-                        padding: "10px 25px",
-                        borderRadius: "8px",
-                        fontSize: "14px"
-                    }}
-                >
-                    Learn More
-                </button>
             </Container>
 
             {/* FOOTER */}
@@ -259,7 +219,7 @@ export default function Home() {
                         }}
                     >
 
-                        {/* LOGO SECTION */}
+                        {/* LOGO + DESCRIPTION */}
                         <div style={{ maxWidth: "280px" }}>
                             <h4 style={{ color: "#f4a261" }}>
                                 PETMATCH
@@ -275,11 +235,11 @@ export default function Home() {
                                 PetMatch helps connect loving families with
                                 pets searching for safe and caring homes.
                                 Discover, adopt, and create meaningful
-                                companionship through a simple and trusted
+                                companionship through a trusted and simple
                                 adoption experience.
                             </p>
 
-                            {/* SOCIAL ICONS */}
+                            {/* SOCIAL MEDIA */}
                             <div
                                 style={{
                                     display: "flex",
