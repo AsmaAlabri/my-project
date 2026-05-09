@@ -5,10 +5,10 @@ export default function About() {
     const navigate = useNavigate();
 
     const team = [
-        { name: "Sara Al-Balushi", role: "Co-Founder & CEO", emoji: "👩‍💼" },
-        { name: "Ahmed Al-Farsi", role: "Lead Developer", emoji: "👨‍💻" },
+        { name: "Eithar AlWadhahi", role: "Co-Founder & CEO", emoji: "👩‍💼" },
+        { name: "Asma ALAbri", role: "Lead Developer", emoji: "👨‍💻" },
         { name: "Mia Johnson", role: "Animal Care Specialist", emoji: "👩‍⚕️" },
-        { name: "Omar Al-Habsi", role: "UX Designer", emoji: "🎨" },
+        { name: "Muaiyid AlZadjali", role: "UX Designer", emoji: "🎨" },
     ];
 
     const stats = [
