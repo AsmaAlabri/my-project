@@ -41,7 +41,6 @@ export default function About() {
                 <div style={{ display: "flex", gap: "20px" }}>
                     {[
                         { label: "Home", to: "/home" },
-                        { label: "List", to: "/list" },
                         { label: "About Us", to: "/about" },
                         { label: "Contact Us", to: "/contact" },
                         { label: "Profile", to: "/profile" },

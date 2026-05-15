@@ -1,50 +1,19 @@
-import { Container } from "reactstrap";
+import Golden from "../images/Golden.png";
+import French from "../images/French.png";
+import Germen from "../images/Germen.png";
+import FrenchDog from "../dogs/FrenchDog"
+import GermenDog from "../dogs/GermenDog";
+import GoldenDog from "../dogs/GoldenDog";
 import { NavLink, useNavigate } from "react-router-dom";
+import { Container } from "reactstrap";
 
+export default function DogList(){
 
-export default function Home() {
     const navigate = useNavigate();
 
-    const pets = [
-        {
-            name: "Cats",
-            img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131"
-        },
-        {
-            name: "Dogs",
-            img: "https://images.unsplash.com/photo-1517849845537-4d257902454a"
-        },
-        {
-            name: "Birds",
-            img: "https://images.unsplash.com/photo-1552728089-57bdde30beb3"
-        }
-    ];
-
-    // const goToList = (petName) => {
-    //     navigate(`/list?category=${petName}`);
-    // };
-
-    const goToList = (petName) => {
-
-    if (petName === "Cats") {
-        navigate("/CatList");
-    }
-
-    else if (petName === "Dogs") {
-        navigate("/DogList");
-    }
-
-    else if (petName === "Birds") {
-        navigate("/BirdList");
-    }};
-
-    return (
-        <div
-            style={{
-                background: "linear-gradient(to right, #f2f2f2, #ffe5d0)",
-                minHeight: "100vh"
-            }}
-        >
+    return(
+        <>
+        <div style={{ background: "linear-gradient(to right, #f2f2f2, #ffe5d0)", minHeight: "100vh" }}>
 
             {/* NAVBAR */}
             <div
@@ -91,123 +60,39 @@ export default function Home() {
                     </NavLink>
                 </div>
             </div>
-
-            {/* HERO SECTION */}
-            <Container
-                className="d-flex flex-column justify-content-center"
-                style={{
-                    height: "40vh",
-                    alignItems: "flex-start"
-                }}
-            >
-                <h1
-                    style={{
-                        color: "#000",
-                        fontWeight: "bold",
-                        marginBottom: "20px"
-                    }}
-                >
-                    Where love finds a home 🏠
-                </h1>
-            </Container>
-
-            {/* PET CATEGORIES */}
-            <Container
-                style={{
-                    backgroundColor: "#ffffff",
-                    padding: "30px",
-                    borderRadius: "20px",
-                    boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-                    marginBottom: "40px"
-                }}
-            >
-                <h3
-                    style={{
-                        color: "#f4a261",
-                        marginBottom: "20px"
-                    }}
-                >
-                    Pet Categories
-                </h3>
-
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        flexWrap: "wrap",
-                        gap: "40px"
-                    }}
-                >
-                    {pets.map((pet, index) => (
-                        <div
-                            key={index}
-                            onClick={() => goToList(pet.name)}
-                            style={{
-                                textAlign: "center",
-                                cursor: "pointer"
-                            }}
-                        >
-                            <img
-                                src={pet.img}
-                                alt={pet.name}
-                                style={{
-                                    width: "110px",
-                                    height: "110px",
-                                    borderRadius: "50%",
-                                    objectFit: "cover",
-                                    border: "4px solid #f4a261"
-                                }}
-                            />
-
-                            <p
-                                style={{
-                                    marginTop: "12px",
-                                    fontWeight: "bold",
-                                    fontSize: "16px"
-                                }}
-                            >
-                                {pet.name}
-                            </p>
-                        </div>
-                    ))}
-                </div>
-            </Container>
-
-            {/* INFO SECTION */}
-            <Container
-                className="text-center"
-                style={{
-                    marginBottom: "60px"
-                }}
-            >
-                <h3
-                    style={{
-                        fontWeight: "bold",
-                        marginBottom: "15px",
-                        color: "#000"
-                    }}
-                >
-                    Your perfect companion is waiting
-                </h3>
-
-                <p
-                    style={{
-                        color: "#555",
-                        maxWidth: "650px",
-                        margin: "0 auto 20px auto",
-                        fontSize: "14px",
-                        lineHeight: "1.8"
-                    }}
-                >
-                    PetMatch is a technology platform that connects homeless
-                    animals with loving families. Using location-based services
-                    and a seamless adoption process, we make it easier to find
-                    your ideal companion and give pets the caring homes they
-                    deserve.
-                </p>
-            </Container>
-
-            {/* FOOTER */}
+            
+        <br/><br/>
+        <h3 className="text-center ">Find Your Paw-fect Companion</h3>
+        <div className="d-flex justify-content-center mt-5 gap-4">
+        <div className="card border-warning" style={{ width : "18rem" }}>
+            <img src={Golden} className="card-img-top" alt="Golden"/>
+            <div className="card-body">
+                <h5 className="card-title">Golden Retriever Dog</h5>
+                <h7 className="card-text">Age: 5 yrs </h7> <br/>
+                <h7 className="card-text">Location: Pethouse Al-Mouj</h7> <br/><br/>
+                <a href="#" className="btn btn-warning" onClick={() => navigate("/GoldenDog")}>View Details</a>
+            </div>
+        </div>
+        <div className="card border-warning" style={{ width : "18rem" }}>
+            <img src={French} className="card-img-top" alt="French"/>
+            <div className="card-body">
+                <h5 className="card-title">French Bull-Dog</h5>
+                <h7 className="card-text">Age: 4 yrs </h7> <br/>
+                <h7 className="card-text">Location: PetZoo Petshop & Veterinary Clinic</h7> <br/><br/>
+                <a href="#" className="btn btn-warning" onClick={() => navigate("/FrenchDog")}>View Details</a>
+            </div>
+        </div>
+        <div className="card border-warning" style={{ width : "18rem" }}>
+            <img src={Germen} className="card-img-top" alt="Germen"/>
+            <div className="card-body">
+                <h5 className="card-title">German Shepherd Dog</h5>
+                <h7 className="card-text">Age: 7 yrs </h7> <br/>
+                <h7 className="card-text">Location: Petland Al-Khuwair</h7> <br/><br/>
+                <a href="#" className="btn btn-warning" onClick={() => navigate("/GermenDog")}>View Details</a>
+            </div>
+        </div>
+        </div>
+        {/* FOOTER */}
             <div
                 style={{
                     backgroundColor: "#ffffff",
@@ -409,7 +294,7 @@ export default function Home() {
 
                 </Container>
             </div>
-
         </div>
-    );
+        </>
+    )
 }
