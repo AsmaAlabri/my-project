@@ -205,20 +205,54 @@ export default function Profile() {
             )}
 
             {/* NAVBAR */}
-            <div style={{
-                backgroundColor: "#ffffff", borderBottom: "2px solid #f4a261",
-                padding: "15px 30px", display: "flex", justifyContent: "space-between", alignItems: "center"
-            }}>
-                <h4 style={{ color: "#f4a261", margin: 0 }}>PETMATCH</h4>
-                <div style={{ display: "flex", gap: "20px" }}>
+            <div
+                style={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 100,
+                    background: "rgba(255,255,255,0.92)",
+                    backdropFilter: "blur(12px)",
+                    borderBottom: "1px solid #f4e4d0",
+                    padding: "0 40px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    height: "64px",
+                    boxShadow: "0 4px 24px rgba(244,162,97,0.12)"
+                }}
+            >
+                <div
+                    style={{
+                        fontFamily: "serif",
+                        fontSize: "22px",
+                        fontWeight: "bold",
+                        color: "#f4a261",
+                        letterSpacing: "1px"
+                    }}
+                >
+                    PETMATCH
+                </div>
+
+                <div style={{ display: "flex", gap: "8px" }}>
                     {[
                         { label: "Home", to: "/home" },
-                        
                         { label: "About Us", to: "/about" },
                         { label: "Contact Us", to: "/contact" },
                         { label: "Profile", to: "/profile" },
                     ].map(link => (
-                        <NavLink key={link.to} to={link.to} style={{ color: "#f4a261", textDecoration: "none" }}>
+                        <NavLink
+                            key={link.to}
+                            to={link.to}
+                            style={({ isActive }) => ({
+                                color: isActive ? "#f4a261" : "#555",
+                                textDecoration: "none",
+                                fontSize: "14px",
+                                fontWeight: "500",
+                                padding: "8px 16px",
+                                borderRadius: "30px",
+                                background: isActive ? "#fff4ec" : "transparent"
+                            })}
+                        >
                             {link.label}
                         </NavLink>
                     ))}
