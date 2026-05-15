@@ -213,7 +213,7 @@ export default function Profile() {
                 <div style={{ display: "flex", gap: "20px" }}>
                     {[
                         { label: "Home", to: "/home" },
-                        { label: "List", to: "/list" },
+                        
                         { label: "About Us", to: "/about" },
                         { label: "Contact Us", to: "/contact" },
                         { label: "Profile", to: "/profile" },
@@ -396,7 +396,7 @@ export default function Profile() {
                         </div>
                         <div>
                             <h6 style={{ fontWeight: "bold", marginBottom: "15px" }}>Quick Links</h6>
-                            {[["Home", "/home"], ["Pets", "/list"], ["About Us", "/about"], ["Contact Us", "/contact"]].map(([label, path]) => (
+                            {[["Home", "/home"],  ["About Us", "/about"], ["Contact Us", "/contact"]].map(([label, path]) => (
                                 <p key={path} style={{ cursor: "pointer" }} onClick={() => navigate(path)}>{label}</p>
                             ))}
                         </div>
