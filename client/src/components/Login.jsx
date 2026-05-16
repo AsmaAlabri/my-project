@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import myLogo from "../images/logo.png";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AdminLogin from "./Adminlogin";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -85,13 +86,24 @@ export default function Login() {
 
                 <Link to="/register" style={{ textDecoration: "none" }}>
                     <Button
-                        className="w-100"
+                        className="w-100 mb-2"
                         style={{
                             backgroundColor: "#f4a261",
                             border: "none"
                         }}
                     >
                         Register
+                    </Button>
+                </Link>
+                <Link to="/admin-login" style={{ textDecoration: "none" }}>
+                    <Button
+                        className="w-100 "
+                        style={{
+                            backgroundColor: "red",
+                            border: "none"
+                        }}
+                    >
+                        Admin
                     </Button>
                 </Link>
 
