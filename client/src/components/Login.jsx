@@ -12,27 +12,46 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleLogin = () => {
-        if (!email || !password) {
-            setError("Please fill all fields");
+    const handleLogin = async () => {
+
+    if (!email || !password) {
+        setError("Please fill all fields");
+        return;
+    }
+
+    try {
+
+        const response = await fetch("http://localhost:5000/login", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                email,
+                password
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            setError(data.message);
             return;
         }
 
-        const savedUser = JSON.parse(localStorage.getItem("user"));
+        // SAVE USER SESSION
+        localStorage.setItem("user", JSON.stringify(data.user));
 
-        if (!savedUser) {
-            setError("You must register first");
-            return;
-        }
-
-        if (email !== savedUser.email || password !== savedUser.password) {
-            setError("Invalid email or password");
-            return;
-        }
-
-        setError("");
         navigate("/home");
-    };
+
+    } catch (error) {
+
+        setError("Server error");
+    }
+};
 
     return (
         <Container className="d-flex justify-content-center align-items-center vh-100">

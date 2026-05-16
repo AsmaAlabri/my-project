@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Container } from "reactstrap";
+import { Col, Row } from "reactstrap";
+
 
 export default function CatList() {
     const navigate = useNavigate();
@@ -9,6 +11,7 @@ export default function CatList() {
     const [error, setError]     = useState("");
     const [search, setSearch]   = useState("");
     const [filter, setFilter]   = useState("all"); // all | available | adopted
+
 
     // ── Fetch cats from MongoDB ───────────────────────────────
     useEffect(() => {
@@ -36,6 +39,8 @@ export default function CatList() {
             !cat.available;
         return matchSearch && matchFilter;
     });
+
+
 
     return (
         <div style={{ background: "linear-gradient(to right, #f2f2f2, #ffe5d0)", minHeight: "100vh" }}>
@@ -205,23 +210,6 @@ export default function CatList() {
                                             </span>
                                         )}
                                     </div>
-
-                                    {/* View Details Button */}
-                                    <button
-                                        onClick={() => navigate(`/cats/${cat._id}`)}
-                                        style={{
-                                            width: "100%",
-                                            background: "#f4a261", color: "#fff",
-                                            border: "none", borderRadius: "12px",
-                                            padding: "10px", fontWeight: "700",
-                                            fontSize: "14px", cursor: "pointer",
-                                            transition: "background 0.2s"
-                                        }}
-                                        onMouseEnter={e => e.target.style.background = "#e8894a"}
-                                        onMouseLeave={e => e.target.style.background = "#f4a261"}
-                                    >
-                                        View Details →
-                                    </button>
                                 </div>
                             </div>
                         ))}
@@ -229,6 +217,118 @@ export default function CatList() {
                 )}
             </Container>
 
+{/* DISCOVER TITLE */}
+
+<div
+    style={{
+        textAlign: "center",
+        marginTop: "40px",
+        marginBottom: "40px"
+    }}
+>
+    <h1
+        style={{
+            color: "#f4a261",
+            fontWeight: "900",
+            fontSize: "42px",
+            letterSpacing: "2px",
+            textShadow: "2px 2px 8px rgba(0,0,0,0.1)"
+        }}
+    >
+        DISCOVER MORE 🐾
+    </h1>
+
+    <p
+        style={{
+            color: "#777",
+            fontSize: "16px",
+            marginTop: "10px"
+        }}
+    >
+        Meet adorable cats waiting for a loving home 
+    </p>
+</div>
+
+{/* DYNAMIC CAT DETAILS */}
+
+{displayed.map((cat) => (
+
+<Row className="justify-content-center mt-5" key={cat._id}>
+
+    <div
+        className="card justify-content-center border-warning p-4"
+        style={{
+            width: "60rem",
+            borderRadius: "15px",
+            border: "4px solid #f4a261",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.15)"
+        }}
+    >
+
+        {/* IMAGE + INFO */}
+        <div className="d-flex align-items-center gap-4 flex-wrap">
+
+            <img
+                src={cat.image}
+                alt={cat.breed}
+                style={{
+                    width: "300px",
+                    height: "300px",
+                    objectFit: "cover",
+                    borderRadius: "15px",
+                    border: "4px solid #f4a261",
+                    boxShadow: "0 4px 10px rgba(0,0,0,0.15)"
+                }}
+            />
+
+            <div>
+                <h3>{cat.name}</h3>
+                <br />
+
+                <h5>Breed : {cat.breed}</h5>
+
+                <h5>Age : {cat.age} yrs</h5>
+
+                <h5>Location : {cat.city}</h5>
+
+                <h5>
+                    Status :
+                    {" "}
+                    {cat.available ? "Available" : "Adopted"}
+                </h5>
+            </div>
+
+        </div>
+
+        {/* MAP */}
+        <div className="mt-4">
+
+            <h5>Your perfect companion is waiting !!</h5>
+
+            <iframe
+                src={`https://maps.google.com/maps?q=${cat.latitude},${cat.longitude}&output=embed`}
+                width="100%"
+                height="450"
+                style={{
+                    borderRadius: "15px",
+                    border: "4px solid #f4a261",
+                    boxShadow: "0 4px 10px rgba(0,0,0,0.15)"
+                }}
+            ></iframe>
+
+            <h6 className="mt-3">
+                Latitude : {cat.latitude}
+            </h6>
+
+            <h6>
+                Longitude : {cat.longitude}
+            </h6>
+
+        </div>
+    </div>
+</Row>
+))}
+<br/><br/><br/>
             {/* FOOTER */}
             <div style={{ backgroundColor: "#ffffff", borderTop: "2px solid #f4a261", padding: "40px 20px" }}>
                 <Container>

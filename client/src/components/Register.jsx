@@ -19,31 +19,44 @@ export default function Register() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleRegister = () => {
-        const { firstName, lastName, email, password } = form;
+    const handleRegister = async () => {
 
-        if (!firstName || !lastName || !email || !password) {
-            setError("Please fill all fields");
+    const { firstName, lastName, email, password } = form;
+
+    if (!firstName || !lastName || !email || !password) {
+        setError("Please fill all fields");
+        return;
+    }
+
+    try {
+
+        const response = await fetch("http://localhost:5000/register", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(form)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            setError(data.message);
             return;
         }
-
-        if (!email.includes("@")) {
-            setError("Enter a valid email");
-            return;
-        }
-
-        if (password.length < 6) {
-            setError("Password must be at least 6 characters");
-            return;
-        }
-
-        // ✅ SAVE USER
-        localStorage.setItem("user", JSON.stringify(form));
 
         setError("");
 
-        navigate("/"); // 👈 go to LOGIN page
-    };
+        navigate("/");
+
+    } catch (error) {
+
+        setError("Server error");
+    }
+};
 
     return (
         <Container

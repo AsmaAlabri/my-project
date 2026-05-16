@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Container } from "reactstrap";
+import { Col, Row } from "reactstrap";
+
 
 export default function BirdList() {
     const navigate = useNavigate();
@@ -9,6 +11,7 @@ export default function BirdList() {
     const [error, setError]     = useState("");
     const [search, setSearch]   = useState("");
     const [filter, setFilter]   = useState("all"); // all | available | adopted
+
 
     // ── Fetch birds from MongoDB ───────────────────────────────
     useEffect(() => {
@@ -235,6 +238,132 @@ export default function BirdList() {
                     </div>
                 )}
             </Container>
+
+{/* DYNAMIC BIRD DETAILS */}
+
+{displayed.map((bird) => (
+
+<Row className="justify-content-center mt-5" key={bird._id}>
+
+    <div
+        className="card justify-content-center border-warning p-4"
+        style={{
+            width: "60rem",
+            borderRadius: "15px",
+            border: "4px solid #f4a261",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.15)"
+        }}
+    >
+
+        {/* IMAGE + INFO */}
+        <div className="d-flex align-items-center gap-4 flex-wrap">
+
+            <img
+                src={bird.image}
+                alt={bird.name}
+                style={{
+                    width: "300px",
+                    height: "300px",
+                    objectFit: "cover",
+                    borderRadius: "15px",
+                    border: "4px solid #f4a261",
+                    boxShadow: "0 4px 10px rgba(0,0,0,0.15)"
+                }}
+            />
+
+            <div>
+
+                <h3>{bird.name}</h3>
+                <br />
+
+                <h5>Breed : {bird.breed}</h5>
+
+                <h5>Age : {bird.age} yrs</h5>
+
+                <h5>Location : {bird.city}</h5>
+
+                <h5>
+                    Status :
+                    {" "}
+                    {bird.available ? "Available" : "Adopted"}
+                </h5>
+
+            </div>
+
+        </div>
+
+        {/* MAP */}
+        <div className="mt-4">
+
+            <h5>Your perfect companion is waiting !!</h5>
+
+            <iframe
+                src={`https://maps.google.com/maps?q=${bird.latitude},${bird.longitude}&output=embed`}
+                width="100%"
+                height="450"
+                style={{
+                    borderRadius: "15px",
+                    border: "4px solid #f4a261",
+                    boxShadow: "0 4px 10px rgba(0,0,0,0.15)"
+                }}
+            ></iframe>
+
+            <h6 className="mt-3">
+                Latitude : {bird.latitude}
+            </h6>
+
+            <h6>
+                Longitude : {bird.longitude}
+            </h6>
+
+        </div>
+
+    </div>
+
+</Row>
+))}
+
+<br/><br/><br/>
+
+            {/* FOOTER */}
+            <div style={{ backgroundColor: "#ffffff", borderTop: "2px solid #f4a261", padding: "40px 20px" }}>
+                <Container>
+                    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "30px" }}>
+                        <div style={{ maxWidth: "280px" }}>
+                            <h4 style={{ color: "#f4a261" }}>PETMATCH</h4>
+                            <p style={{ color: "#555", fontSize: "14px", lineHeight: "1.7" }}>
+                                PetMatch helps connect loving families with pets searching for safe and caring homes.
+                            </p>
+                            <div style={{ display: "flex", gap: "15px", marginTop: "15px" }}>
+                                {["bi-instagram","bi-facebook","bi-twitter-x","bi-youtube"].map((icon, i) => (
+                                    <i key={i} className={`bi ${icon}`} style={{ fontSize: "20px", cursor: "pointer" }}></i>
+                                ))}
+                            </div>
+                        </div>
+                        <div>
+                            <h6 style={{ fontWeight: "bold", marginBottom: "15px" }}>Quick Links</h6>
+                            {[["Home","/home"],["About Us","/about"],["Contact Us","/contact"]].map(([l,p]) => (
+                                <p key={p} style={{ cursor: "pointer" }} onClick={() => navigate(p)}>{l}</p>
+                            ))}
+                        </div>
+                        <div>
+                            <h6 style={{ fontWeight: "bold", marginBottom: "15px" }}>Support</h6>
+                            <p>Help Center</p><p>Privacy Policy</p><p>Terms & Conditions</p>
+                        </div>
+                        <div>
+                            <h6 style={{ fontWeight: "bold", marginBottom: "15px" }}>Contact</h6>
+                            <p>Muscat, Oman</p><p>petmatch@gmail.com</p><p>+968 9999 9999</p>
+                        </div>
+                    </div>
+                    <div style={{ borderTop: "1px solid #ddd", marginTop: "30px", paddingTop: "15px", display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
+                        <p style={{ margin: 0, color: "#777", fontSize: "13px" }}>© 2026 PETMATCH. All rights reserved.</p>
+                        <p onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                            style={{ margin: 0, cursor: "pointer", color: "#f4a261", fontWeight: "bold" }}>
+                            Back to top ↑
+                        </p>
+                    </div>
+                </Container>
+            </div>
         </div>
     );
 }

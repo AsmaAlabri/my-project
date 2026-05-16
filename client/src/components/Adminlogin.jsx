@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // ── Fixed admin credentials ──────────────────────────────────
-const ADMIN_EMAIL    = "admin@petmatch.com";
-const ADMIN_PASSWORD = "admin1234";
 
 export default function AdminLogin() {
     const navigate = useNavigate();
@@ -12,20 +10,59 @@ export default function AdminLogin() {
     const [error, setError]       = useState("");
     const [showPw, setShowPw]     = useState(false);
 
-    const handleLogin = () => {
-        setError("");
-        if (!email || !password) {
-            setError("Please fill in all fields.");
+    const handleLogin = async () => {
+
+    setError("");
+
+    // Empty validation
+    if (!email || !password) {
+        setError("Please fill in all fields.");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:5000/api/admin/login",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        // Login failed
+        if (!data.success) {
+            setError(data.message);
             return;
         }
-        if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
-            setError("Invalid admin credentials.");
-            return;
-        }
-        // Save admin session
+
+        // Save session
         sessionStorage.setItem("isAdmin", "true");
+
+        sessionStorage.setItem(
+            "adminEmail",
+            data.admin.email
+        );
+
+        // Redirect
         navigate("/admin");
-    };
+
+    } catch (error) {
+
+        setError("Server error. Please try again.");
+
+    }
+
+};
 
     const css = `
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -186,13 +223,6 @@ export default function AdminLogin() {
                 <div className="al-back">
                     Not an admin?{" "}
                     <span onClick={() => navigate("/")}>Back to main site</span>
-                </div>
-
-                {/* HINT for development */}
-                <div className="al-hint">
-                    <strong>Dev hint:</strong><br />
-                    Email: admin@petmatch.com<br />
-                    Password: admin1234
                 </div>
 
             </div>
