@@ -1,312 +1,273 @@
-import Persian from "../images/Persian.png"
-import Domestic from "../images/Domestic.png"
-import Siamese from "../images/Siamese.png"
-import PersianCat from "../cats/PersianCat";
-import DomesticCat from "../cats/DomesticCat";
-import SiameseCat from "../cats/SiameseCat";
+import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Container } from "reactstrap";
 
+export default function CatList() {
+    const navigate = useNavigate();
+    const [cats, setCats]       = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError]     = useState("");
+    const [search, setSearch]   = useState("");
+    const [filter, setFilter]   = useState("all"); // all | available | adopted
 
-export default function CatList(){
+    // ── Fetch cats from MongoDB ───────────────────────────────
+    useEffect(() => {
+        fetch("http://localhost:5000/api/cats")
+            .then(res => res.json())
+            .then(data => {
+                setCats(Array.isArray(data) ? data : []);
+                setLoading(false);
+            })
+            .catch(() => {
+                setError("Could not load cats. Make sure the server is running.");
+                setLoading(false);
+            });
+    }, []);
 
-     const navigate = useNavigate();
+    // ── Filter + Search ───────────────────────────────────────
+    const displayed = cats.filter(cat => {
+        const matchSearch =
+            cat.name?.toLowerCase().includes(search.toLowerCase()) ||
+            cat.breed?.toLowerCase().includes(search.toLowerCase()) ||
+            cat.city?.toLowerCase().includes(search.toLowerCase());
+        const matchFilter =
+            filter === "all" ? true :
+            filter === "available" ? cat.available :
+            !cat.available;
+        return matchSearch && matchFilter;
+    });
 
-    return(
-        <>
+    return (
         <div style={{ background: "linear-gradient(to right, #f2f2f2, #ffe5d0)", minHeight: "100vh" }}>
 
-
             {/* NAVBAR */}
-            <div
-                style={{
-                    position: "sticky",
-                    top: 0,
-                    zIndex: 100,
-                    background: "rgba(255,255,255,0.92)",
-                    backdropFilter: "blur(12px)",
-                    borderBottom: "1px solid #f4e4d0",
-                    padding: "0 40px",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    height: "64px",
-                    boxShadow: "0 4px 24px rgba(244,162,97,0.12)"
-                }}
-            >
-                <div
-                    style={{
-                        fontFamily: "serif",
-                        fontSize: "22px",
-                        fontWeight: "bold",
-                        color: "#f4a261",
-                        letterSpacing: "1px"
-                    }}
-                >
-                    PETMATCH
-                </div>
-
-                <div style={{ display: "flex", gap: "8px" }}>
+            <div style={{
+                backgroundColor: "#ffffff",
+                borderBottom: "2px solid #f4a261",
+                padding: "15px 30px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+            }}>
+                <h4 style={{ color: "#f4a261", margin: 0 }}>PETMATCH</h4>
+                <div style={{ display: "flex", gap: "20px" }}>
                     {[
-                        { label: "Home", to: "/home" },
-                        { label: "About Us", to: "/about" },
+                        { label: "Home",       to: "/home"    },
+                        { label: "About Us",   to: "/about"   },
                         { label: "Contact Us", to: "/contact" },
-                        { label: "Profile", to: "/profile" },
+                        { label: "Profile",    to: "/profile" },
                     ].map(link => (
-                        <NavLink
-                            key={link.to}
-                            to={link.to}
-                            style={({ isActive }) => ({
-                                color: isActive ? "#f4a261" : "#555",
-                                textDecoration: "none",
-                                fontSize: "14px",
-                                fontWeight: "500",
-                                padding: "8px 16px",
-                                borderRadius: "30px",
-                                background: isActive ? "#fff4ec" : "transparent"
-                            })}
-                        >
+                        <NavLink key={link.to} to={link.to}
+                            style={{ color: "#f4a261", textDecoration: "none" }}>
                             {link.label}
                         </NavLink>
                     ))}
                 </div>
             </div>
 
-        <br/><br/>
-        <h3 className="text-center ">Choose Your Purr-fect Pet</h3>
-        <div className="d-flex justify-content-center mt-5 gap-4">
-        <div className="card border-warning" style={{ width : "18rem" }}>
-            <img src={Persian} className="card-img-top" alt="Persian"/>
-            <div className="card-body">
-                <h5 className="card-title">Persian Cat</h5>
-                <h7 className="card-text">Age: 3 yrs </h7> <br/>
-                <h7 className="card-text">Location: PetHouse Al-Qurum</h7> <br/><br/>
-                <a href="#" className="btn btn-warning" onClick={() => navigate("/PersianCat")}>View Details</a>
-            </div>
-        </div>
-        <div className="card border-warning" style={{ width : "18rem" }}>
-            <img src={Domestic} className="card-img-top" alt="Domestic"/>
-            <div className="card-body">
-                <h5 className="card-title">Domestic Shorthair Cat</h5>
-                <h7 className="card-text">Age: 5 yrs </h7> <br/>
-                <h7 className="card-text">Location : Animal World Al-Araimi Boulevard</h7> <br/><br/>
-                <a href="#" className="btn btn-warning" onClick={() => navigate("/DomesticCat")}>View Details</a>
-            </div>
-        </div>
-        <div className="card border-warning" style={{ width : "18rem" }}>
-            <img src={Siamese} className="card-img-top" alt="Siamese"/>
-            <div className="card-body">
-                <h5 className="card-title">Siamese Cat</h5>
-                <h7 className="card-text">Age: 2 yrs </h7> <br/>
-                <h7 className="card-text">Location: Animal World Al-Hail</h7> <br/><br/>
-                <a href="#" className="btn btn-warning" onClick={() => navigate("/SiameseCat")}>View Details</a>
-            </div>
-        </div>
-        </div>
+            <Container style={{ paddingTop: "40px", paddingBottom: "60px" }}>
 
-        {/* FOOTER */}
-            <div
-                style={{
-                    backgroundColor: "#ffffff",
-                    borderTop: "2px solid #f4a261",
-                    padding: "40px 20px",
-                    marginTop: "40px"
-                }}
-            >
-                <Container>
+                {/* HEADER */}
+                <div style={{ marginBottom: "30px" }}>
+                    <h2 style={{ fontWeight: "bold", color: "#1a1a1a" }}>🐱 Cats for Adoption</h2>
+                    <p style={{ color: "#666", fontSize: "15px" }}>
+                        Find your perfect feline companion from our available cats.
+                    </p>
+                </div>
 
-                    <div
+                {/* SEARCH + FILTER */}
+                <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "28px" }}>
+                    <input
+                        type="text"
+                        placeholder="🔍 Search by name, breed or city..."
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
                         style={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            justifyContent: "space-between",
-                            gap: "30px"
+                            flex: 1, minWidth: "220px",
+                            padding: "10px 18px",
+                            borderRadius: "30px",
+                            border: "2px solid #f4a261",
+                            fontSize: "14px", outline: "none"
                         }}
-                    >
+                    />
+                    {["all", "available", "adopted"].map(f => (
+                        <button key={f} onClick={() => setFilter(f)}
+                            style={{
+                                padding: "10px 22px", borderRadius: "30px",
+                                border: "2px solid #f4a261",
+                                background: filter === f ? "#f4a261" : "#fff",
+                                color: filter === f ? "#fff" : "#f4a261",
+                                fontWeight: "600", fontSize: "14px", cursor: "pointer"
+                            }}>
+                            {f.charAt(0).toUpperCase() + f.slice(1)}
+                        </button>
+                    ))}
+                </div>
 
-                        {/* LOGO + DESCRIPTION */}
+                {/* LOADING */}
+                {loading && (
+                    <div style={{ textAlign: "center", padding: "80px 0" }}>
+                        <div style={{ fontSize: "50px" }}>🐱</div>
+                        <p style={{ color: "#f4a261", fontWeight: "600", marginTop: "12px" }}>Loading cats...</p>
+                    </div>
+                )}
+
+                {/* ERROR */}
+                {error && (
+                    <div style={{
+                        background: "#f8d7da", border: "1px solid #dc3545",
+                        borderRadius: "12px", padding: "16px 20px",
+                        color: "#721c24", marginBottom: "20px"
+                    }}>
+                        ⚠️ {error}
+                    </div>
+                )}
+
+                {/* EMPTY */}
+                {!loading && !error && displayed.length === 0 && (
+                    <div style={{ textAlign: "center", padding: "80px 0", color: "#aaa" }}>
+                        <div style={{ fontSize: "60px" }}>🐱</div>
+                        <p style={{ marginTop: "12px", fontSize: "16px" }}>No cats found.</p>
+                    </div>
+                )}
+
+                {/* CAT CARDS GRID */}
+                {!loading && !error && (
+                    <div style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+                        gap: "24px"
+                    }}>
+                        {displayed.map(cat => (
+                            <div key={cat._id}
+                                style={{
+                                    background: "#fff",
+                                    borderRadius: "20px",
+                                    overflow: "hidden",
+                                    border: "2px solid #f4a261",
+                                    boxShadow: "0 4px 15px rgba(0,0,0,0.07)",
+                                    transition: "transform 0.2s, box-shadow 0.2s",
+                                    cursor: "pointer"
+                                }}
+                                onMouseEnter={e => {
+                                    e.currentTarget.style.transform = "translateY(-6px)";
+                                    e.currentTarget.style.boxShadow = "0 12px 30px rgba(244,162,97,0.25)";
+                                }}
+                                onMouseLeave={e => {
+                                    e.currentTarget.style.transform = "translateY(0)";
+                                    e.currentTarget.style.boxShadow = "0 4px 15px rgba(0,0,0,0.07)";
+                                }}
+                            >
+                                {/* IMAGE */}
+                                <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
+                                    <img
+                                        src={cat.image || "https://via.placeholder.com/300x200?text=No+Image"}
+                                        alt={cat.name}
+                                        onError={e => e.target.src = "https://via.placeholder.com/300x200?text=No+Image"}
+                                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                    />
+                                    {/* Available badge */}
+                                    <span style={{
+                                        position: "absolute", top: "12px", right: "12px",
+                                        background: cat.available ? "#28a745" : "#6c757d",
+                                        color: "#fff", fontSize: "11px", fontWeight: "700",
+                                        padding: "4px 10px", borderRadius: "20px"
+                                    }}>
+                                        {cat.available ? "🟢 Available" : "🔴 Adopted"}
+                                    </span>
+                                </div>
+
+                                {/* INFO */}
+                                <div style={{ padding: "18px 20px" }}>
+                                    <h5 style={{ fontWeight: "bold", marginBottom: "6px", color: "#1a1a1a" }}>
+                                        {cat.name}
+                                    </h5>
+                                    <p style={{ color: "#888", fontSize: "13px", margin: "0 0 4px 0" }}>
+                                        🐱 {cat.breed}
+                                    </p>
+                                    <p style={{ color: "#888", fontSize: "13px", margin: "0 0 4px 0" }}>
+                                        🎂 {cat.age} {cat.age === 1 ? "year" : "years"} old &nbsp;·&nbsp; ⚧ {cat.gender}
+                                    </p>
+                                    <p style={{ color: "#888", fontSize: "13px", margin: "0 0 12px 0" }}>
+                                        📍 {cat.city}
+                                    </p>
+
+                                    {/* Badges */}
+                                    <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "14px" }}>
+                                        {cat.vaccinated && (
+                                            <span style={{ background: "#d4edda", color: "#155724", fontSize: "11px", fontWeight: "700", padding: "3px 10px", borderRadius: "20px" }}>
+                                                ✅ Vaccinated
+                                            </span>
+                                        )}
+                                        {cat.neutered && (
+                                            <span style={{ background: "#d1ecf1", color: "#0c5460", fontSize: "11px", fontWeight: "700", padding: "3px 10px", borderRadius: "20px" }}>
+                                                ✅ Neutered
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {/* View Details Button */}
+                                    <button
+                                        onClick={() => navigate(`/cats/${cat._id}`)}
+                                        style={{
+                                            width: "100%",
+                                            background: "#f4a261", color: "#fff",
+                                            border: "none", borderRadius: "12px",
+                                            padding: "10px", fontWeight: "700",
+                                            fontSize: "14px", cursor: "pointer",
+                                            transition: "background 0.2s"
+                                        }}
+                                        onMouseEnter={e => e.target.style.background = "#e8894a"}
+                                        onMouseLeave={e => e.target.style.background = "#f4a261"}
+                                    >
+                                        View Details →
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </Container>
+
+            {/* FOOTER */}
+            <div style={{ backgroundColor: "#ffffff", borderTop: "2px solid #f4a261", padding: "40px 20px" }}>
+                <Container>
+                    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "30px" }}>
                         <div style={{ maxWidth: "280px" }}>
-                            <h4 style={{ color: "#f4a261" }}>
-                                PETMATCH
-                            </h4>
-
-                            <p
-                                style={{
-                                    color: "#555",
-                                    fontSize: "14px",
-                                    lineHeight: "1.7"
-                                }}
-                            >
-                                PetMatch helps connect loving families with
-                                pets searching for safe and caring homes.
-                                Discover, adopt, and create meaningful
-                                companionship through a trusted and simple
-                                adoption experience.
+                            <h4 style={{ color: "#f4a261" }}>PETMATCH</h4>
+                            <p style={{ color: "#555", fontSize: "14px", lineHeight: "1.7" }}>
+                                PetMatch helps connect loving families with pets searching for safe and caring homes.
                             </p>
-
-                            {/* SOCIAL MEDIA */}
-                            <div
-                                style={{
-                                    display: "flex",
-                                    gap: "15px",
-                                    marginTop: "15px"
-                                }}
-                            >
-                                <i
-                                    className="bi bi-instagram"
-                                    style={{
-                                        fontSize: "20px",
-                                        cursor: "pointer"
-                                    }}
-                                ></i>
-
-                                <i
-                                    className="bi bi-facebook"
-                                    style={{
-                                        fontSize: "20px",
-                                        cursor: "pointer"
-                                    }}
-                                ></i>
-
-                                <i
-                                    className="bi bi-twitter-x"
-                                    style={{
-                                        fontSize: "20px",
-                                        cursor: "pointer"
-                                    }}
-                                ></i>
-
-                                <i
-                                    className="bi bi-youtube"
-                                    style={{
-                                        fontSize: "20px",
-                                        cursor: "pointer"
-                                    }}
-                                ></i>
+                            <div style={{ display: "flex", gap: "15px", marginTop: "15px" }}>
+                                {["bi-instagram","bi-facebook","bi-twitter-x","bi-youtube"].map((icon, i) => (
+                                    <i key={i} className={`bi ${icon}`} style={{ fontSize: "20px", cursor: "pointer" }}></i>
+                                ))}
                             </div>
                         </div>
-
-                        {/* QUICK LINKS */}
                         <div>
-                            <h6
-                                style={{
-                                    color: "#000",
-                                    marginBottom: "15px",
-                                    fontWeight: "bold"
-                                }}
-                            >
-                                Quick Links
-                            </h6>
-
-                            <p
-                                style={{ cursor: "pointer" }}
-                                onClick={() => navigate("/home")}
-                            >
-                                Home
-                            </p>
-
-                            <p
-                                style={{ cursor: "pointer" }}
-                                onClick={() => navigate("/list")}
-                            >
-                                Pets
-                            </p>
-
-                            <p
-                                style={{ cursor: "pointer" }}
-                                onClick={() => navigate("/about")}
-                            >
-                                About Us
-                            </p>
-
-                            <p
-                                style={{ cursor: "pointer" }}
-                                onClick={() => navigate("/contact")}
-                            >
-                                Contact Us
-                            </p>
+                            <h6 style={{ fontWeight: "bold", marginBottom: "15px" }}>Quick Links</h6>
+                            {[["Home","/home"],["About Us","/about"],["Contact Us","/contact"]].map(([l,p]) => (
+                                <p key={p} style={{ cursor: "pointer" }} onClick={() => navigate(p)}>{l}</p>
+                            ))}
                         </div>
-
-                        {/* SUPPORT */}
                         <div>
-                            <h6
-                                style={{
-                                    color: "#000",
-                                    marginBottom: "15px",
-                                    fontWeight: "bold"
-                                }}
-                            >
-                                Support
-                            </h6>
-
-                            <p>Help Center</p>
-                            <p>Privacy Policy</p>
-                            <p>Terms & Conditions</p>
-                            <p>Customer Support</p>
+                            <h6 style={{ fontWeight: "bold", marginBottom: "15px" }}>Support</h6>
+                            <p>Help Center</p><p>Privacy Policy</p><p>Terms & Conditions</p>
                         </div>
-
-                        {/* CONTACT */}
                         <div>
-                            <h6
-                                style={{
-                                    color: "#000",
-                                    marginBottom: "15px",
-                                    fontWeight: "bold"
-                                }}
-                            >
-                                Contact
-                            </h6>
-
-                            <p>Muscat, Oman</p>
-                            <p>petmatch@gmail.com</p>
-                            <p>+968 9999 9999</p>
+                            <h6 style={{ fontWeight: "bold", marginBottom: "15px" }}>Contact</h6>
+                            <p>Muscat, Oman</p><p>petmatch@gmail.com</p><p>+968 9999 9999</p>
                         </div>
-
                     </div>
-
-                    {/* FOOTER BOTTOM */}
-                    <div
-                        style={{
-                            borderTop: "1px solid #ddd",
-                            marginTop: "30px",
-                            paddingTop: "15px",
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            flexWrap: "wrap"
-                        }}
-                    >
-                        <p
-                            style={{
-                                margin: 0,
-                                color: "#777",
-                                fontSize: "13px"
-                            }}
-                        >
-                            © 2026 PETMATCH. All rights reserved.
-                        </p>
-
-                        <p
-                            onClick={() =>
-                                window.scrollTo({
-                                    top: 0,
-                                    behavior: "smooth"
-                                })
-                            }
-                            style={{
-                                margin: 0,
-                                cursor: "pointer",
-                                color: "#f4a261",
-                                fontWeight: "bold"
-                            }}
-                        >
+                    <div style={{ borderTop: "1px solid #ddd", marginTop: "30px", paddingTop: "15px", display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
+                        <p style={{ margin: 0, color: "#777", fontSize: "13px" }}>© 2026 PETMATCH. All rights reserved.</p>
+                        <p onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                            style={{ margin: 0, cursor: "pointer", color: "#f4a261", fontWeight: "bold" }}>
                             Back to top ↑
                         </p>
                     </div>
-
                 </Container>
             </div>
-            </div>
-        </>
-    )
+        </div>
+    );
 }
