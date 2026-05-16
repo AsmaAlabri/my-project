@@ -12,17 +12,6 @@ import BirdList from "./components/BirdList";
 import CatList from "./components/CatList";
 import DogList from "./components/DogList";
 
-import PersianCat from "./cats/PersianCat";
-import DomesticCat from "./cats/DomesticCat";
-import SiameseCat from "./cats/SiameseCat";
-
-import FrenchDog from "./dogs/FrenchDog";
-import GermenDog from "./dogs/GermenDog";
-import GoldenDog from "./dogs/GoldenDog";
-
-import PeacockBird from "./birds/PeacockBird";
-import ParrotBird from "./birds/ParrotBird";
-import FlamingoBird from "./birds/FlamingoBird";
 
 import AdminDashboard from "./components/AdminDashboard";
 import AdminLogin from "./components/AdminLogin";
@@ -44,21 +33,6 @@ function App() {
         <Route path="/CatList" element={<CatList />} />
         <Route path="/DogList" element={<DogList />} />
         <Route path="/BirdList" element={<BirdList />} />
-
-        {/* STATIC CAT PAGES */}
-        <Route path="/PersianCat" element={<PersianCat />} />
-        <Route path="/DomesticCat" element={<DomesticCat />} />
-        <Route path="/SiameseCat" element={<SiameseCat />} />
-
-        {/* ✅ DYNAMIC CAT ROUTE FROM MONGODB */}
-        <Route path="/cats/:id" element={<PersianCat />} />
-
-        {/* DOG PAGES */}
-        <Route path="/dogs/:id" element={<GermenDog />} />
-
-        {/* BIRD PAGES */}
-        <Route path="/dogs/:id" element={<FlamingoBird />} />
-
 
 
         {/* ADMIN ROUTES */}
