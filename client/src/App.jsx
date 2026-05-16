@@ -18,8 +18,8 @@ import GoldenDog from "./dogs/GoldenDog";
 import PeacockBird from "./birds/PeacockBird";
 import ParrotBird from "./birds/ParrotBird";
 import FlamingoBird from "./birds/FlamingoBird";
-
-
+import AdminDashboard from "./components/AdminDashboard";
+import AdminLogin from "./components/Adminlogin";
 function App() {
   return (
     <BrowserRouter>
@@ -42,6 +42,9 @@ function App() {
         <Route path="/PeacockBird" element={<PeacockBird/>}/>
         <Route path="/ParrotBird" element={<ParrotBird/>}/>
         <Route path="/FlamingoBird" element={<FlamingoBird/>}/>
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/admin"       element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   );
