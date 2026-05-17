@@ -14,7 +14,7 @@ import DogList from "./components/DogList";
 
 
 import AdminDashboard from "./components/AdminDashboard";
-import AdminLogin from "./components/AdminLogin";
+import AdminLogin from "./components/Adminlogin";
 
 function App() {
   return (
