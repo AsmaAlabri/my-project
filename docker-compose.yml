@@ -2,7 +2,7 @@ services:
   backend:
     build:
       context: ./server
-      dockerfile: Dockerfile
+      dockerfile: server.Dockerfile
     container_name: npm run dev
     restart: unless-stopped
     ports:
@@ -13,7 +13,7 @@ services:
   frontend:
     build:
       context: ./client
-      dockerfile: Dockerfile
+      dockerfile: client.Dockerfile
     container_name:  npm run dev
     restart: unless-stopped
     ports:
