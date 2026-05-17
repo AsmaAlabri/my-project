@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 const API = "http://localhost:5000/api";
 
-const EMPTY_CAT  = { name:"", breed:"", age:"", gender:"Male", color:"", weight:"", vaccinated:false, neutered:false, available:true, indoor:true, longhaired:false, description:"", image:"", shelter:"", city:"Muscat" };
-const EMPTY_DOG  = { name:"", breed:"", age:"", gender:"Male", color:"", weight:"", vaccinated:false, neutered:false, available:true, trained:false, size:"Medium", description:"", image:"", shelter:"", city:"Muscat" };
-const EMPTY_BIRD = { name:"", breed:"", age:"", gender:"Male", color:"", weight:"", vaccinated:false, neutered:false, available:true, canTalk:false, wingspan:"", description:"", image:"", shelter:"", city:"Muscat" };
+const EMPTY_CAT  = { name:"", breed:"", age:"", gender:"Male", city:"Muscat", image:"", available:true, vaccinated:false, neutered:false, trained:false, size:"Medium", description:"", latitude: "", longitude: "" };
+const EMPTY_DOG  = { name:"", breed:"", age:"", gender:"Male", city:"Muscat", image:"", available:true, vaccinated:false, neutered:false, trained:false, size:"Medium", description:"", latitude: "", longitude: "" };
+const EMPTY_BIRD = { name:"", breed:"", age:"", gender:"Male", city:"Muscat", image:"", available:true, vaccinated:false, neutered:false, trained:false, size:"Medium", description:"", latitude: "", longitude: "" };
 
 export default function AdminDashboard() {
     const navigate = useNavigate();
@@ -421,22 +421,10 @@ export default function AdminDashboard() {
                                 </select>
                             </div>
                             <div className="form-group">
-                                <label>Color</label>
-                                <input type="text" name="color" value={form.color || ""} onChange={handleChange} placeholder="e.g. White" />
-                            </div>
-                            <div className="form-group">
-                                <label>Weight (kg)</label>
-                                <input type="number" name="weight" value={form.weight || ""} onChange={handleChange} placeholder="e.g. 3.5" step="0.1" min="0" />
-                            </div>
-                            <div className="form-group">
                                 <label>City</label>
                                 <select name="city" value={form.city || "Muscat"} onChange={handleChange}>
                                     <option>Muscat</option><option>Salalah</option><option>Nizwa</option><option>Sohar</option><option>Sur</option>
                                 </select>
-                            </div>
-                            <div className="form-group">
-                                <label>Shelter</label>
-                                <input type="text" name="shelter" value={form.shelter || ""} onChange={handleChange} placeholder="e.g. Muscat Animal Rescue" />
                             </div>
                             {renderExtraFields()}
                             <div className="form-group full">
@@ -454,6 +442,14 @@ export default function AdminDashboard() {
                                     <label className="checkbox-item"><input type="checkbox" name="neutered"   checked={!!form.neutered}   onChange={handleChange} /> Neutered</label>
                                     <label className="checkbox-item"><input type="checkbox" name="available"  checked={!!form.available}  onChange={handleChange} /> Available</label>
                                 </div>
+                            </div>
+                            <div className="form-group"> 
+                            <label>Latitude</label> 
+                            <input type="number" name="latitude" value={form.latitude || ""} onChange={handleChange} placeholder="e.g. 23.6131" step="any" /> 
+                            </div> 
+                            <div className="form-group"> 
+                            <label>Longitude</label> 
+                            <input type="number" name="longitude" value={form.longitude || ""} onChange={handleChange} placeholder="e.g. 58.5922" step="any" /> 
                             </div>
                         </div>
                         <div className="modal-actions">

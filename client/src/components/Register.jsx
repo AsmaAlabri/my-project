@@ -94,26 +94,27 @@ export default function Register() {
                         {error && <p style={{ color: "red" }}>{error}</p>}
 
                         <FormGroup>
-                            <Label>First Name</Label>
-                            <Input name="firstName" type="text" onChange={handleChange} />
+                            <Label htmlFor="firstName">First Name</Label>
+                            <Input name="firstName" type="text" id="firstName" onChange={handleChange} />
                         </FormGroup>
 
                         <FormGroup>
-                            <Label>Last Name</Label>
-                            <Input name="lastName" type="text" onChange={handleChange} />
+                            <Label htmlFor="lastName">Last Name</Label>
+                            <Input name="lastName" type="text" id="lastName" onChange={handleChange} />
                         </FormGroup>
 
                         <FormGroup>
-                            <Label>Email</Label>
-                            <Input name="email" type="email" onChange={handleChange} />
+                            <Label htmlFor="email">Email</Label>
+                            <Input name="email" type="email" id="email" onChange={handleChange} />
                         </FormGroup>
 
                         <FormGroup>
-                            <Label>Password</Label>
-                            <Input name="password" type="password" onChange={handleChange} />
+                            <Label htmlFor="password">Password</Label>
+                            <Input name="password" type="password" id="password" onChange={handleChange} />
                         </FormGroup>
 
                         <Button
+                            htmlFor="register"
                             onClick={handleRegister}
                             style={{
                                 backgroundColor: "#f4a261",
@@ -127,6 +128,7 @@ export default function Register() {
 
                         <Link to="/" style={{ textDecoration: "none" }}>
                             <Button
+                                htmlFor="login"
                                 style={{
                                     backgroundColor: "#f4a261",
                                     border: "none",
