@@ -14,7 +14,7 @@ RUN npm run build
 
 # Serve the built app with a lightweight static server
 FROM node:18-alpine
-WORKDIR /app
+WORKDIR /my-project
 RUN npm install -g serve
 COPY --from=builder /app/dist ./dist
 
