@@ -16,8 +16,18 @@ const app = express();
 
 const isDatabaseConnected = () => mongoose.connection.readyState === 1;
 
-const requireDatabase = (res) => {
-    if (isDatabaseConnected()) {
+const waitForDatabase = async (timeoutMs = 10000) => {
+    const startedAt = Date.now();
+
+    while (!isDatabaseConnected() && Date.now() - startedAt < timeoutMs) {
+        await new Promise((resolve) => setTimeout(resolve, 250));
+    }
+
+    return isDatabaseConnected();
+};
+
+const requireDatabase = async (res) => {
+    if (await waitForDatabase()) {
         return true;
     }
 
@@ -65,7 +75,7 @@ app.post("/register", async (req, res) => {
 
     try {
 
-        if (!requireDatabase(res)) return;
+        if (!(await requireDatabase(res))) return;
 
         const { firstName, lastName, email, password } = req.body;
 
@@ -111,7 +121,7 @@ app.post("/login", async (req, res) => {
 
     try {
 
-        if (!requireDatabase(res)) return;
+        if (!(await requireDatabase(res))) return;
 
         const { email, password } = req.body;
 
