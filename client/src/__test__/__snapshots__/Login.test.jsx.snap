@@ -1,0 +1,88 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Login Page Tests > Should match the Snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="d-flex justify-content-center align-items-center vh-100 container"
+  >
+    <div
+      class="bg-light p-4 rounded-3 shadow"
+      style="width: 350px; border: 2px solid rgb(244, 162, 97);"
+    >
+      <div
+        class="text-center mb-3"
+      >
+        <img
+          src="/src/images/logo.png"
+          style="width: 120px;"
+        />
+      </div>
+      <h3
+        class="text-center mb-3"
+        style="color: rgb(244, 162, 97);"
+      >
+        Login
+      </h3>
+      <div
+        class="mb-3"
+      >
+        <label
+          class="form-label"
+        >
+          Email
+        </label>
+        <input
+          class="form-control"
+          type="email"
+          value=""
+        />
+      </div>
+      <div
+        class="mb-3"
+      >
+        <label
+          class="form-label"
+        >
+          Password
+        </label>
+        <input
+          class="form-control"
+          type="password"
+          value=""
+        />
+      </div>
+      <button
+        class="w-100 mb-2 btn btn-secondary"
+        style="background-color: rgb(244, 162, 97); border: medium;"
+        type="button"
+      >
+        Login
+      </button>
+      <a
+        data-discover="true"
+        href="/register"
+        style="text-decoration: none;"
+      >
+        <button
+          class="w-100 mb-2 btn btn-secondary"
+          style="background-color: rgb(244, 162, 97); border: medium;"
+        >
+          Register
+        </button>
+      </a>
+      <a
+        data-discover="true"
+        href="/admin-login"
+        style="text-decoration: none;"
+      >
+        <button
+          class="w-100  btn btn-secondary"
+          style="background-color: red; border: medium;"
+        >
+          Admin
+        </button>
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
+`;
