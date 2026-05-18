@@ -14,12 +14,39 @@ dotenv.config();
 
 const app = express();
 
+const isDatabaseConnected = () => mongoose.connection.readyState === 1;
+
+const requireDatabase = (res) => {
+    if (isDatabaseConnected()) {
+        return true;
+    }
+
+    res.status(503).json({
+        message: "Database is not connected. Check MONGO_URI and MongoDB Atlas network access on Render."
+    });
+    return false;
+};
+
 const allowedOrigins = process.env.CLIENT_URL
     ? process.env.CLIENT_URL.split(",").map((origin) => origin.trim())
     : true;
 
 app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
+
+app.get("/", (req, res) => {
+    res.json({
+        message: "Server is running",
+        database: isDatabaseConnected() ? "connected" : "disconnected"
+    });
+});
+
+app.get("/health", (req, res) => {
+    res.status(isDatabaseConnected() ? 200 : 503).json({
+        server: "ok",
+        database: isDatabaseConnected() ? "connected" : "disconnected"
+    });
+});
 
 
 // CONNECT DATABASE
@@ -37,6 +64,8 @@ if (!process.env.MONGO_URI) {
 app.post("/register", async (req, res) => {
 
     try {
+
+        if (!requireDatabase(res)) return;
 
         const { firstName, lastName, email, password } = req.body;
 
@@ -68,6 +97,7 @@ app.post("/register", async (req, res) => {
 
     } catch (error) {
 
+        console.error("Register error:", error.message);
         res.status(500).json({
             message: "Server Error"
         });
@@ -80,6 +110,8 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
 
     try {
+
+        if (!requireDatabase(res)) return;
 
         const { email, password } = req.body;
 
@@ -107,6 +139,7 @@ app.post("/login", async (req, res) => {
 
     } catch (error) {
 
+        console.error("Login error:", error.message);
         res.status(500).json({
             message: "Server Error"
         });
